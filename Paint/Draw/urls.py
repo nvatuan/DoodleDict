@@ -1,7 +1,8 @@
 from django.urls import path
-from .views import drawApi
+from .views import drawApi, randomImage
 
 
 urlpatterns = [
-    path('', drawApi, name='draw'),
+    path('doodle', drawApi, name='draw'),
+    path('randimg', randomImage, name='randimg'),
 ]
