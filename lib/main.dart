@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import './demo.dart';
-import './randome_image.dart';
+import 'package:flutter/rendering.dart';
+import './screens/intro.dart';
+import './screens/sidebar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Demo(title: 'Text Displayer'),
+      home: OnBoardingPage(),
     );
   }
 }
