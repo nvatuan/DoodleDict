@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-+!@o1$=64o5#3&%ao+7a*#*4he22ags8u%p3to&ar8e_8hfb5o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['1509.ddns.net']
+ALLOWED_HOSTS = ['1509.ddns.net', '*']
 
 
 # Application definition
@@ -78,8 +78,12 @@ WSGI_APPLICATION = 'Paint.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "postgres",
+        "USER": "postgres",
+        "PASSWORD": "postgres",
+        "HOST": "db",
+        "PORT": 5432,
     }
 }
 
