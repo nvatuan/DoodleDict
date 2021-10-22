@@ -38,6 +38,7 @@ dependencies:
   painter: ^2.0.0
   flutter_advanced_drawer: ^1.2.4
   intl: ^0.17.0
+  carousel_slider: ^4.0.0
 
 dev_dependencies:
   flutter_test:

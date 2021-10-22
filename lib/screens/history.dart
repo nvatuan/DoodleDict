@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:myapp/screens/home.dart';
 import 'package:myapp/screens/items.dart';
+import 'package:myapp/screens/result.dart';
 import 'package:myapp/screens/sidebar.dart';
 
 final df = new DateFormat('dd-MM-yyyy hh:mm:ss a');
 
-HistoryItem item1 = HistoryItem('apple', 'apple_1', DateTime.now());
-HistoryItem item2 = HistoryItem('dog', 'dog_1', DateTime.now());
-HistoryItem item3 = HistoryItem('cat', 'cat_1', DateTime.now());
+HistoryItem item1 = HistoryItem('apple', 'apple_1.jpg', DateTime.now());
+HistoryItem item2 = HistoryItem('dog', 'dog_1.jpg', DateTime.now());
+HistoryItem item3 = HistoryItem('cat', 'cat_1.jpg', DateTime.now());
 List<HistoryItem> items = List.from([item1, item2, item3]);
 
 class History extends StatelessWidget {
@@ -36,16 +37,25 @@ class History extends StatelessWidget {
                   child: Container(
                     height: 70,
                     child: ListTile(
-                        leading: Image.asset(
-                          '${items[index].name}_1.jpg',
-                          width: 80,
-                          height: 80,
-                        ),
-                        title: Text(items[index].name),
-                        subtitle:
-                            Text(df.format(items[index].created).toString()),
-                        trailing: Icon(Icons.arrow_right),
-                        onTap: () => print("ListTile")),
+                      leading: Image.asset(
+                        items[index].image,
+                        width: 80,
+                        height: 80,
+                      ),
+                      title: Text(items[index].name),
+                      subtitle:
+                          Text(df.format(items[index].created).toString()),
+                      trailing: const Icon(Icons.arrow_right),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Result(
+                                    item: items[index],
+                                  )),
+                        );
+                      },
+                    ),
                   ),
                 );
               },
