@@ -12,6 +12,11 @@ def drawApi(request):
     data = getSampleGuess()
     return Response(data)
 
+@api_view(['GET', 'POST'])
+def drawExperimentApi(request):
+    data = getSampleGuess()
+    return Response(data)
+
 @api_view(['GET'])
 def randomImage(request):
     import requests
