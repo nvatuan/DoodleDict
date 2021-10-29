@@ -17,7 +17,7 @@ class Sidebar extends StatelessWidget {
               color: Colors.blue,
               image: DecorationImage(
                 fit: BoxFit.fitHeight,
-                image: AssetImage('logo.png'),
+                image: AssetImage('assets/logo.png'),
               ),
             ),
             child: Text(
@@ -32,7 +32,14 @@ class Sidebar extends StatelessWidget {
             title: RichText(
               text: const TextSpan(children: [
                 WidgetSpan(child: Icon(Icons.home)),
-                TextSpan(text: '     Home Page'),
+                TextSpan(
+                  text: '     Home Page',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ]),
             ),
             onTap: () {
@@ -46,7 +53,13 @@ class Sidebar extends StatelessWidget {
             title: RichText(
               text: const TextSpan(children: [
                 WidgetSpan(child: Icon(Icons.history)),
-                TextSpan(text: '     History'),
+                TextSpan(
+                  text: '     History',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w500),
+                ),
               ]),
             ),
             onTap: () {
@@ -60,7 +73,14 @@ class Sidebar extends StatelessWidget {
             title: RichText(
               text: const TextSpan(children: [
                 WidgetSpan(child: Icon(Icons.info)),
-                TextSpan(text: '     Introduction'),
+                TextSpan(
+                  text: '     Introduction',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ]),
             ),
             onTap: () {

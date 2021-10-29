@@ -2,8 +2,18 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:myapp/controller/history_storage.dart';
 import 'package:painter/painter.dart';
 import './sidebar.dart';
+import 'package:myapp/model/server_result.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:myapp/screens/result.dart';
+import 'package:myapp/model/items.dart';
+import 'package:intl/intl.dart';
+import 'dart:developer' as developer;
+import 'package:myapp/controller/base64_conver.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,6 +26,30 @@ class _HomePageState extends State<HomePage> {
   bool _finished = false;
   PainterController _controller = _newController();
 
+  late Future<ServerResult> _futureServerResult;
+
+  Future<ServerResult> createServerResult(String data) async {
+    final response = await http.post(
+      Uri.parse('http://1509.ddns.net:5100/doodle/'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(<String, String>{
+        'pic': data,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      return ServerResult.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to create ServerResult.');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -24,7 +58,7 @@ class _HomePageState extends State<HomePage> {
   static PainterController _newController() {
     PainterController controller = PainterController();
     controller.thickness = 5.0;
-    controller.backgroundColor = Colors.grey;
+    controller.backgroundColor = const Color(0xFFE7E7E7);
     return controller;
   }
 
@@ -82,6 +116,32 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.only(left: 8, right: 8),
           child: AspectRatio(aspectRatio: 1.0, child: Painter(_controller)),
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () async {
+          // List<int> imageBytes = await _controller.finish().toPNG();
+          // developer.log(imageBytes.toString());
+          String base64Image = base64String(await _controller.finish().toPNG());
+          developer.log(base64Image);
+          ServerResult serverResult = await createServerResult(base64Image);
+
+          final df = DateFormat('dd-MM-yyyy hh:mm:ss a');
+          String mean = serverResult.word['en'];
+          HistoryItem item = HistoryItem(
+              name: mean,
+              image: base64Image,
+              created: df.format(DateTime.now()).toString());
+          writeHistory(item);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    Result(item: item, serverResult: serverResult)),
+          );
+        },
+        label: const Text('Search'),
+        icon: const Icon(Icons.search),
+        backgroundColor: Colors.blue,
       ),
     );
   }

@@ -39,6 +39,9 @@ dependencies:
   flutter_advanced_drawer: ^1.2.4
   intl: ^0.17.0
   carousel_slider: ^4.0.0
+  shared_preferences: ^2.0.8
+  http: ^0.13.4
+  transparent_image: ^2.0.0
 
 dev_dependencies:
   flutter_test:

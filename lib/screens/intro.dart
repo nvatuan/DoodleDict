@@ -52,11 +52,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           key: introKey,
           globalBackgroundColor: Colors.white,
           globalHeader: Align(
-            alignment: Alignment.topRight,
+            alignment: Alignment.topLeft,
             child: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.only(top: 2, right: 2),
-                child: _buildImage('logo.png', 100),
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: _buildImage('logo.png', 80),
               ),
             ),
           ),
@@ -122,7 +122,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             ),
           ),
         ),
+        
       ),
+      
     );
   }
 }
