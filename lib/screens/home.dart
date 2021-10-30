@@ -97,8 +97,13 @@ class _HomePageState extends State<HomePage> {
             tooltip: 'Clear',
             onPressed: _controller.clear),
         IconButton(
-            icon: const Icon(Icons.check),
-            onPressed: () => _show(_controller.finish(), context)),
+          icon: const Icon(Icons.add_to_photos),
+          tooltip: 'New Painting',
+          onPressed: () => setState(() {
+            _finished = false;
+            _controller = _newController();
+          }),
+        ),
       ];
     }
     return Scaffold(
