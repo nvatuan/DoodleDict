@@ -16,6 +16,16 @@ class History extends StatelessWidget {
     // List<HistoryItem> items = readHistory() as List<HistoryItem>;
 
     return Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
+          },
+          child: const Icon(Icons.add),
+          backgroundColor: Colors.blue,
+        ),
         drawer: const Sidebar(),
         appBar: AppBar(
           title: const Text('History'),
