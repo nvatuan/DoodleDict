@@ -38,7 +38,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.only(top: 500),
+        padding: const EdgeInsets.only(top: 140),
         child: IntroductionScreen(
           key: introKey,
           globalBackgroundColor: Colors.white,
@@ -46,18 +46,20 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             alignment: Alignment.topLeft,
             child: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.only(top: 10, left: 20),
-                child: _buildImage('logo.png', 80),
-              ),
+                  padding: const EdgeInsets.only(left: 10),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(14.0),
+                      child: Image.asset('assets/logo.png',
+                          width: 80, height: 80))),
             ),
           ),
           globalFooter: SizedBox(
             width: double.infinity,
-            height: 50,
+            height: 60,
             child: ElevatedButton(
               child: const Text(
                 'Start now!',
-                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               ),
               onPressed: () => _onIntroEnd(context),
             ),
@@ -67,19 +69,19 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               title: "This is a dictionary",
               body:
                   "Different from other dictionaries.\nWe made this one for kids.",
-              image: _buildImage('img2.png'),
+              image: _buildImage('img1.png'),
               decoration: pageDecoration,
             ),
             PageViewModel(
               title: "Drawing your pictures",
-              body: "We wil show you what is that.",
-              image: _buildImage('img1.png'),
+              body: "We will show you what is that.",
+              image: _buildImage('img2.png'),
               decoration: pageDecoration,
             ),
             PageViewModel(
               title: "Let's draw your picture!",
               body: "And find out the answer.",
-              image: _buildImage('img3.jpg'),
+              image: _buildImage('img3.png'),
               decoration: pageDecoration,
             ),
           ],
@@ -89,10 +91,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           skipFlex: 0,
           nextFlex: 0,
           //rtl: true, // Display as right-to-left
-          skip: const Text('Skip'),
+          skip: const Text('Skip',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
           next: const Icon(Icons.arrow_forward),
-          done:
-              const Text('Done', style: TextStyle(fontWeight: FontWeight.w600)),
+          done: const Text('Done',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
           curve: Curves.fastLinearToSlowEaseIn,
           controlsMargin: const EdgeInsets.all(16),
           controlsPadding: kIsWeb

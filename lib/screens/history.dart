@@ -30,7 +30,8 @@ class History extends StatelessWidget {
           title: const Text('History'),
         ),
         body: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding:
+              const EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
           child: FutureBuilder<List<HistoryItem>>(
               future: readHistory(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -43,25 +44,33 @@ class History extends StatelessWidget {
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
                         return Card(
-                          shadowColor: Colors.grey,
-                          elevation: 10,
+                          shadowColor: Colors.black,
+                          elevation: 4,
                           shape: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(2),
+                              borderRadius: BorderRadius.circular(12),
                               borderSide: const BorderSide(
-                                  color: Colors.blue, width: 1)),
+                                  color: Colors.blue, width: 2)),
                           child: SizedBox(
                             height: 70,
                             child: ListTile(
-                              leading: Image.memory(
-                                dataFromBase64String(snapshot
-                                    .data[snapshot.data.length - index - 1]!
-                                    .image),
-                                width: 80,
-                                height: 80,
+                              leading: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.memory(
+                                  dataFromBase64String(snapshot
+                                      .data[snapshot.data.length - index - 1]!
+                                      .image),
+                                  width: 50,
+                                  height: 50,
+                                ),
                               ),
-                              title: Text(snapshot
-                                  .data[snapshot.data.length - index - 1]!
-                                  .name),
+                              title: Text(
+                                  snapshot
+                                      .data[snapshot.data.length - index - 1]!
+                                      .name,
+                                  style: const TextStyle(
+                                      color: Colors.blue,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold)),
                               subtitle: Text(snapshot
                                   .data[snapshot.data.length - index - 1]!
                                   .created),

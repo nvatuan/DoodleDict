@@ -48,8 +48,8 @@ class _HomePageState extends State<HomePage> {
 
   static PainterController _newController() {
     PainterController controller = PainterController();
-    controller.thickness = 5.0;
-    controller.backgroundColor = const Color(0xFFE7E7E7);
+    controller.thickness = 8.0;
+    controller.backgroundColor = const Color(0xFFF0F0F0);
     return controller;
   }
 
