@@ -3,10 +3,5 @@ psycopg2-binary==2.8.6
 djangorestframework==3.12.4
 django-cors-headers
 Pillow==8.3.2
-<<<<<<< HEAD
-requests
 googletrans==3.1.0a0
-=======
 requests==2.26.0
-
->>>>>>> 1ac8a723926af83557bb4b27c53d695b439e018e
