@@ -117,7 +117,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           String base64Image = base64String(await _controller.finish().toPNG());
-          developer.log(base64Image);
+
           ServerResult serverResult = await createServerResult(base64Image);
 
           final df = DateFormat('dd-MM-yyyy hh:mm:ss a');

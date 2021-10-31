@@ -164,6 +164,7 @@ class _ResultState extends State<Result> {
                               width: 480,
                               height: 270,
                               fit: BoxFit.fill),
+                          // child: Image.network(img, width: 480, height: 270)),
                         ),
                       )
                     ]),
