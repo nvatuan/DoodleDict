@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import './home.dart';
+import 'package:myapp/screens/home.dart';
 
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({Key? key}) : super(key: key);
@@ -38,7 +38,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.only(top: 60),
+        padding: const EdgeInsets.only(top: 500),
         child: IntroductionScreen(
           key: introKey,
           globalBackgroundColor: Colors.white,

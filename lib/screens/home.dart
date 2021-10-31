@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:myapp/controller/history_storage.dart';
 import 'package:painter/painter.dart';
-import './sidebar.dart';
+import 'package:myapp/screens/sidebar.dart';
 import 'package:myapp/model/server_result.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -78,7 +78,8 @@ class _HomePageState extends State<HomePage> {
               if (_controller.isEmpty) {
                 showModalBottomSheet(
                     context: context,
-                    builder: (BuildContext context) => const Text('Nothing to undo'));
+                    builder: (BuildContext context) =>
+                        const Text('Nothing to undo'));
               } else {
                 _controller.undo();
               }
