@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:myapp/screens/home.dart';
 import 'package:myapp/model/items.dart';
-import 'package:myapp/screens/sidebar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import './sidebar.dart';
 import 'package:myapp/model/server_result.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:myapp/controller/base64_conver.dart';
-
-
 
 class Result extends StatelessWidget {
   const Result({Key? key, required this.item, required this.serverResult})
@@ -70,10 +64,10 @@ class Result extends StatelessWidget {
           ),
           CarouselSlider(
             items: serverResult.img
-                .map((img) => Container(
+                .map((img) => SizedBox(
                     height: MediaQuery.of(context).size.height * 0.5,
                     child: Stack(children: <Widget>[
-                      Center(child: CircularProgressIndicator()),
+                      const Center(child: CircularProgressIndicator()),
                       Center(
                         child: FadeInImage.memoryNetwork(
                             placeholder: kTransparentImage,

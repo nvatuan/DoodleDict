@@ -45,7 +45,7 @@ class Sidebar extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => HomePage()),
+                MaterialPageRoute(builder: (context) => const HomePage()),
               );
             },
           ),
@@ -65,7 +65,7 @@ class Sidebar extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => History()),
+                MaterialPageRoute(builder: (context) => const History()),
               );
             },
           ),
@@ -86,7 +86,7 @@ class Sidebar extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => OnBoardingPage()),
+                MaterialPageRoute(builder: (context) => const OnBoardingPage()),
               );
             },
           ),

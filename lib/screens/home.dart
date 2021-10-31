@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:myapp/controller/history_storage.dart';
@@ -25,9 +23,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool _finished = false;
   PainterController _controller = _newController();
-
-  late Future<ServerResult> _futureServerResult;
-
   Future<ServerResult> createServerResult(String data) async {
     final response = await http.post(
       Uri.parse('http://1509.ddns.net:5100/doodle/'),
@@ -40,12 +35,8 @@ class _HomePageState extends State<HomePage> {
     );
 
     if (response.statusCode == 200) {
-      // If the server did return a 201 CREATED response,
-      // then parse the JSON.
       return ServerResult.fromJson(jsonDecode(response.body));
     } else {
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception.
       throw Exception('Failed to create ServerResult.');
     }
   }
@@ -87,7 +78,7 @@ class _HomePageState extends State<HomePage> {
               if (_controller.isEmpty) {
                 showModalBottomSheet(
                     context: context,
-                    builder: (BuildContext context) => Text('Nothing to undo'));
+                    builder: (BuildContext context) => const Text('Nothing to undo'));
               } else {
                 _controller.undo();
               }
@@ -124,8 +115,6 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          // List<int> imageBytes = await _controller.finish().toPNG();
-          // developer.log(imageBytes.toString());
           String base64Image = base64String(await _controller.finish().toPNG());
           developer.log(base64Image);
           ServerResult serverResult = await createServerResult(base64Image);
@@ -150,67 +139,32 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
-  void _show(PictureDetails picture, BuildContext context) {
-    setState(() {
-      _finished = true;
-    });
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('View your image'),
-        ),
-        body: Container(
-            alignment: Alignment.center,
-            child: FutureBuilder<Uint8List>(
-              future: picture.toPNG(),
-              builder:
-                  (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.done:
-                    if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    } else {
-                      return Image.memory(snapshot.data!);
-                    }
-                  default:
-                    return const FractionallySizedBox(
-                      widthFactor: 0.1,
-                      child: AspectRatio(
-                          aspectRatio: 1.0, child: CircularProgressIndicator()),
-                      alignment: Alignment.center,
-                    );
-                }
-              },
-            )),
-      );
-    }));
-  }
 }
 
 class DrawBar extends StatelessWidget {
   final PainterController _controller;
 
-  const DrawBar(this._controller);
+  const DrawBar(this._controller, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Flexible(child: StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) {
-          return Slider(
-            value: _controller.thickness,
-            onChanged: (double value) => setState(() {
-              _controller.thickness = value;
-            }),
-            min: 1.0,
-            max: 20.0,
-            activeColor: Colors.white,
-          );
-        })),
+        Flexible(
+          child: StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+            return Slider(
+              value: _controller.thickness,
+              onChanged: (double value) => setState(() {
+                _controller.thickness = value;
+              }),
+              min: 1.0,
+              max: 20.0,
+              activeColor: Colors.white,
+            );
+          }),
+        ),
         StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
           return RotatedBox(
               quarterTurns: _controller.eraseMode ? 2 : 0,
@@ -235,7 +189,8 @@ class ColorPickerButton extends StatefulWidget {
   final PainterController _controller;
   final bool _background;
 
-  const ColorPickerButton(this._controller, this._background);
+  const ColorPickerButton(this._controller, this._background, {Key? key})
+      : super(key: key);
 
   @override
   _ColorPickerButtonState createState() => _ColorPickerButtonState();
@@ -279,7 +234,6 @@ class _ColorPickerButtonState extends State<ColorPickerButton> {
   Color get _color => widget._background
       ? widget._controller.backgroundColor
       : widget._controller.drawColor;
-
   IconData get _iconData =>
       widget._background ? Icons.format_color_fill : Icons.brush;
 

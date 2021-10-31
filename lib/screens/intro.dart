@@ -1,10 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import './home.dart';
 
 class OnBoardingPage extends StatefulWidget {
+  const OnBoardingPage({Key? key}) : super(key: key);
+
   @override
   _OnBoardingPageState createState() => _OnBoardingPageState();
 }
@@ -14,17 +15,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   void _onIntroEnd(context) {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => HomePage()),
-    );
-  }
-
-  Widget _buildFullscrenImage() {
-    return Image.asset(
-      'assets/fullscreen.jpg',
-      fit: BoxFit.cover,
-      height: double.infinity,
-      width: double.infinity,
-      alignment: Alignment.center,
+      MaterialPageRoute(builder: (_) => const HomePage()),
     );
   }
 
@@ -122,9 +113,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             ),
           ),
         ),
-        
       ),
-      
     );
   }
 }

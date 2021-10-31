@@ -1,5 +1,3 @@
-import 'package:intl/intl.dart';
-
 class HistoryItem {
   late String name;
   late String image;
@@ -14,7 +12,7 @@ class HistoryItem {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = name;
     data['image'] = image;
     data['created'] = created;

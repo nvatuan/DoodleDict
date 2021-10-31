@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/screens/home.dart';
 import 'package:myapp/model/items.dart';
-import 'package:myapp/screens/result.dart';
 import 'package:myapp/screens/sidebar.dart';
 import 'package:myapp/controller/history_storage.dart';
 import 'package:myapp/controller/base64_conver.dart';
@@ -20,7 +19,7 @@ class History extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => HomePage()),
+              MaterialPageRoute(builder: (context) => const HomePage()),
             );
           },
           child: const Icon(Icons.add),
@@ -48,9 +47,9 @@ class History extends StatelessWidget {
                           elevation: 10,
                           shape: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(2),
-                              borderSide:
-                                  BorderSide(color: Colors.blue, width: 1)),
-                          child: Container(
+                              borderSide: const BorderSide(
+                                  color: Colors.blue, width: 1)),
+                          child: SizedBox(
                             height: 70,
                             child: ListTile(
                               leading: Image.memory(
