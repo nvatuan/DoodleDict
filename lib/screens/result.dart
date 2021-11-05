@@ -7,10 +7,8 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'dart:developer' as developer;
 
 class Result extends StatefulWidget {
-  const Result({Key? key, required this.item, required this.serverResult})
-      : super(key: key);
+  const Result({Key? key, required this.item}) : super(key: key);
   final HistoryItem item;
-  final ServerResult serverResult;
 
   @override
   State<Result> createState() => _ResultState();
@@ -31,7 +29,7 @@ class _ResultState extends State<Result> {
         //   backgroundColor: Colors.white,
         //   onTap: () => {
         //     setState(() {
-        //       _displayText = widget.serverResult.word['zh-cn'];
+        //       _displayText = widget.item.lsWord['zh-cn'];
         //     })
         //   },
         //   label: 'Chinese',
@@ -44,8 +42,7 @@ class _ResultState extends State<Result> {
           backgroundColor: Colors.white,
           onTap: () => {
             setState(() {
-              
-              _displayText = widget.serverResult.word['ru'];
+              _displayText = widget.item.lsWord['ru'];
             })
           },
           label: 'Rusian',
@@ -58,7 +55,7 @@ class _ResultState extends State<Result> {
           backgroundColor: Colors.white,
           onTap: () => {
             setState(() {
-              _displayText = widget.serverResult.word['fr'];
+              _displayText = widget.item.lsWord['fr'];
             })
           },
           label: 'French',
@@ -71,7 +68,7 @@ class _ResultState extends State<Result> {
           backgroundColor: Colors.white,
           onTap: () => {
             setState(() {
-              _displayText = widget.serverResult.word['ja'];
+              _displayText = widget.item.lsWord['ja'];
             })
           },
           label: 'Japanese',
@@ -84,7 +81,7 @@ class _ResultState extends State<Result> {
           backgroundColor: Colors.white,
           onTap: () => {
             setState(() {
-              _displayText = widget.serverResult.word['vi'];
+              _displayText = widget.item.lsWord['vi'];
             })
           },
           label: 'Vietnamese',
@@ -97,7 +94,7 @@ class _ResultState extends State<Result> {
           backgroundColor: Colors.white,
           onTap: () => {
             setState(() {
-              _displayText = widget.serverResult.word['en'];
+              _displayText = widget.item.lsWord['en'];
             })
           },
           label: 'Enlish',
@@ -152,7 +149,7 @@ class _ResultState extends State<Result> {
             ),
           ),
           CarouselSlider(
-            items: widget.serverResult.img
+            items: widget.item.lsImage
                 .map(
                   (img) => SizedBox(
                     height: MediaQuery.of(context).size.height * 0.5,
@@ -183,7 +180,7 @@ class _ResultState extends State<Result> {
               aspectRatio: 16 / 9,
               autoPlayCurve: Curves.fastOutSlowIn,
               enableInfiniteScroll: true,
-              autoPlayAnimationDuration: const Duration(milliseconds: 800),
+              autoPlayAnimationDuration: const Duration(milliseconds: 700),
               viewportFraction: 0.9,
             ),
           ),

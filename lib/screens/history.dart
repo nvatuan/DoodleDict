@@ -4,16 +4,13 @@ import 'package:myapp/model/items.dart';
 import 'package:myapp/screens/sidebar.dart';
 import 'package:myapp/controller/history_storage.dart';
 import 'package:myapp/controller/base64_conver.dart';
-
-// late HistoryStorage storage;
+import 'package:myapp/screens/result.dart';
 
 class History extends StatelessWidget {
   const History({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // List<HistoryItem> items = readHistory() as List<HistoryItem>;
-
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -76,13 +73,15 @@ class History extends StatelessWidget {
                                   .created),
                               trailing: const Icon(Icons.arrow_right),
                               onTap: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (context) => Result(
-                                //             item: items[index],
-                                //           )),
-                                // );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Result(
+                                      item: snapshot.data[
+                                          snapshot.data.length - index - 1],
+                                    ),
+                                  ),
+                                );
                               },
                             ),
                           ),

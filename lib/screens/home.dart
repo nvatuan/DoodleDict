@@ -10,7 +10,6 @@ import 'package:http/http.dart' as http;
 import 'package:myapp/screens/result.dart';
 import 'package:myapp/model/items.dart';
 import 'package:intl/intl.dart';
-import 'dart:developer' as developer;
 import 'package:myapp/controller/base64_conver.dart';
 
 class HomePage extends StatefulWidget {
@@ -123,16 +122,18 @@ class _HomePageState extends State<HomePage> {
           final df = DateFormat('dd-MM-yyyy hh:mm:ss a');
           String mean = serverResult.word['en'];
           HistoryItem item = HistoryItem(
-              name: mean,
-              image: base64Image,
-              created: df.format(DateTime.now()).toString());
+            name: mean,
+            image: base64Image,
+            created: df.format(DateTime.now()).toString(),
+            lsImage: serverResult.img,
+            lsWord: serverResult.word,
+          );
           writeHistory(item);
           Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    Result(item: item, serverResult: serverResult)),
-          );
+              context,
+              MaterialPageRoute(
+                builder: (context) => Result(item: item),
+              ));
         },
         label: const Text('Search'),
         icon: const Icon(Icons.search),
