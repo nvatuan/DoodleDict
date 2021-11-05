@@ -25,9 +25,9 @@ class _HomePageState extends State<HomePage> {
   PainterController _controller = _newController();
   Future<ServerResult> createServerResult(String data) async {
     final response = await http.post(
-      Uri.parse('http://1509.ddns.net:5100/doodle/'),
+      Uri.parse('http://1509.ddns.net:5100/doodle-experiment/'),
       headers: <String, String>{
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
         'pic': data,
@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
     );
 
     if (response.statusCode == 200) {
-      return ServerResult.fromJson(jsonDecode(response.body));
+      return ServerResult.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     } else {
       throw Exception('Failed to create ServerResult.');
     }
@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> {
           String base64Image = base64String(await _controller.finish().toPNG());
 
           ServerResult serverResult = await createServerResult(base64Image);
-
+          // developer.log(serverResult.word['ja']);
           final df = DateFormat('dd-MM-yyyy hh:mm:ss a');
           String mean = serverResult.word['en'];
           HistoryItem item = HistoryItem(

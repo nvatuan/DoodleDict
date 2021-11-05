@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:myapp/model/server_result.dart';
 import 'package:myapp/controller/base64_conver.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'dart:developer' as developer;
 
 class Result extends StatefulWidget {
   const Result({Key? key, required this.item, required this.serverResult})
@@ -25,24 +26,25 @@ class _ResultState extends State<Result> {
       visible: true,
       curve: Curves.bounceInOut,
       children: [
-        SpeedDialChild(
-          child: Image.asset('assets/china.png'),
-          backgroundColor: Colors.white,
-          onTap: () => {
-            setState(() {
-              _displayText = widget.serverResult.word['zh-cn'];
-            })
-          },
-          label: 'Chinese',
-          labelStyle:
-              const TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
-          labelBackgroundColor: Colors.blue,
-        ),
+        // SpeedDialChild(
+        //   child: Image.asset('assets/china.png'),
+        //   backgroundColor: Colors.white,
+        //   onTap: () => {
+        //     setState(() {
+        //       _displayText = widget.serverResult.word['zh-cn'];
+        //     })
+        //   },
+        //   label: 'Chinese',
+        //   labelStyle:
+        //       const TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
+        //   labelBackgroundColor: Colors.blue,
+        // ),
         SpeedDialChild(
           child: Image.asset('assets/russia.png'),
           backgroundColor: Colors.white,
           onTap: () => {
             setState(() {
+              
               _displayText = widget.serverResult.word['ru'];
             })
           },
@@ -138,6 +140,7 @@ class _ResultState extends State<Result> {
                 TextSpan(
                   text: _displayText == 'Loading...'
                       ? widget.item.name
+                      // ? "pусский язык"
                       : _displayText,
                   style: const TextStyle(
                     fontSize: 50.0,
@@ -181,7 +184,7 @@ class _ResultState extends State<Result> {
               autoPlayCurve: Curves.fastOutSlowIn,
               enableInfiniteScroll: true,
               autoPlayAnimationDuration: const Duration(milliseconds: 800),
-              viewportFraction: 0.7,
+              viewportFraction: 0.9,
             ),
           ),
         ],

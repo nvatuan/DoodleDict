@@ -11,7 +11,7 @@ Future<List<HistoryItem>> readHistory() async {
   var content = '';
   if (prefs.getString('history') != null) {
     content = prefs.getString('history')!;
-  } else {  
+  } else {
     prefs.setString('history', '[]');
     content = '[]';
   }
