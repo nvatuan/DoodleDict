@@ -12,6 +12,7 @@ class History extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.grey[200],
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.push(

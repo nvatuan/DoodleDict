@@ -109,6 +109,7 @@ class _ResultState extends State<Result> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       floatingActionButton: buildSpeedDial(),
       appBar: AppBar(
         title: const Text('Result'),

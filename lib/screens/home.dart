@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:myapp/controller/history_storage.dart';
-import 'package:painter/painter.dart';
+// import 'package:painter/painter.dart';
 import 'package:myapp/screens/sidebar.dart';
 import 'package:myapp/model/server_result.dart';
 import 'dart:async';
@@ -11,6 +11,7 @@ import 'package:myapp/screens/result.dart';
 import 'package:myapp/model/items.dart';
 import 'package:intl/intl.dart';
 import 'package:myapp/controller/base64_conver.dart';
+import 'package:myapp/screens/painter.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -24,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   PainterController _controller = _newController();
   Future<ServerResult> createServerResult(String data) async {
     final response = await http.post(
-      Uri.parse('http://1509.ddns.net:5100/doodle-experiment/'),
+      Uri.parse('http://1509.ddns.net:5100/doodle/'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -48,7 +49,7 @@ class _HomePageState extends State<HomePage> {
   static PainterController _newController() {
     PainterController controller = PainterController();
     controller.thickness = 8.0;
-    controller.backgroundColor = const Color(0xFFF0F0F0);
+    controller.backgroundColor = const Color(0xFFFFFFFF);
     return controller;
   }
 
@@ -98,7 +99,7 @@ class _HomePageState extends State<HomePage> {
       ];
     }
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[200],
       drawer: const Sidebar(),
       appBar: AppBar(
           title: const Text('Painter'),
@@ -115,8 +116,13 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
+          PainterController temp = PainterController.clone(_controller);
           String base64Image = base64String(await _controller.finish().toPNG());
-
+          setState(() {
+            _finished = false;
+            _controller = _newController();
+            _controller = temp;
+          });
           ServerResult serverResult = await createServerResult(base64Image);
           // developer.log(serverResult.word['ja']);
           final df = DateFormat('dd-MM-yyyy hh:mm:ss a');

@@ -36,7 +36,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     );
 
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.only(top: 140),
         child: IntroductionScreen(
