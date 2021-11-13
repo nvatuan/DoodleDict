@@ -16,7 +16,11 @@ class Drawing(models.Model):
 SAMPLES = [
     {
         'word': {
-            'en': 'chair'
+            'en': 'chair',
+            'vi': 'ghế',
+            'ja': '椅子',
+            'fr': 'chaise',
+            'ru': 'стул',
         },
         'img': [
             'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Plastic_Tuinstoel.jpg/200px-Plastic_Tuinstoel.jpg',
@@ -27,7 +31,11 @@ SAMPLES = [
     },
     {
         'word': {
-            'en': 'bed'
+            'en': 'bed',
+            'vi': 'giường',
+            'ja': 'ベッド',
+            'fr': 'lit',
+            'ru': 'кровать',
         },
         'img': [
             'https://www.boconcept.com/on/demandware.static/-/Sites-master-catalog/default/dw0b805ada/images/1220000/1223156.jpg',
@@ -37,7 +45,11 @@ SAMPLES = [
     },
     {
         'word': {
-            'en': 'clock'
+            'en': 'clock',
+            'vi': 'đồng hồ',
+            'ja': '時計',
+            'fr': 'l\'horloge',
+            'ru': 'Часы',
         },
         'img': [
             'https://www.ikea.com/sg/en/images/products/tjalla-wall-clock__0633571_pe695905_s5.jpg',
@@ -47,7 +59,11 @@ SAMPLES = [
     },
     {
         'word': {
-            'en': 'car'
+            'en': 'car',
+            'vi': 'xe ô tô',
+            'ja': '車',
+            'fr': 'auto',
+            'ru': 'автомобиль',
         },
         'img': [
             'https://car-images.bauersecure.com/pagefiles/81498/450x300/fordfocus_100.jpg',
@@ -57,7 +73,11 @@ SAMPLES = [
     },
     {
         'word': {
-            'en': 'apple'
+            'en': 'apple',
+            'vi': 'quả táo',
+            'ja': 'アップル',
+            'fr': 'pomme',
+            'ru': 'яблоко',
         },
         'img': [
             'https://iranfreshfruit.net/wp-content/uploads/2020/01/red-apple-fruit.jpg',

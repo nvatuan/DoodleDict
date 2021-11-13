@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+from .guess import pred_b64_img as PREDICT_B64 # our ML model
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -27,6 +28,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['1509.ddns.net', '*']
 
+import os
+PROJECT_DIR=os.path.dirname(__file__)
+TMP_DIR = os.path.join( os.path.abspath( os.path.join(PROJECT_DIR, '..')), 'tmp' )
 
 # Application definition
 
@@ -61,7 +65,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TMP_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -134,8 +138,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-
-STATIC_URL = '/static/'
+STATIC_URL = '/tmp/'
+STATIC_ROOT = os.path.join(PROJECT_DIR, STATIC_URL)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
