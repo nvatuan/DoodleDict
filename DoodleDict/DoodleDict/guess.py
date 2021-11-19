@@ -1,10 +1,36 @@
 import os
 module_dir = os.path.dirname(__file__)  # get current directory
 
+import numpy as np
 
-CATEGORIES = sorted(
-    open(os.path.join(module_dir, 'categories.txt'), 'r').read().strip().split('\n')
-)
+CATEGORIES = open(os.path.join(module_dir, 'categories.txt'), 'r').read().strip().split('\n')
+
+CATE_PREFIX = 'categories_'
+CATE_POSTFIX = '.txt'
+CATE_LANG = ['en', 'vi', 'ja', 'ru', 'fr']
+
+DICTIONARY = None
+
+def load_cate_files():
+    global DICTIONARY
+    DICTIONARY = []
+    mapping = {}
+    for lang in CATE_LANG:
+        mapping[lang] = open(os.path.join(module_dir, CATE_PREFIX + lang + CATE_POSTFIX), 'r').read().strip().split('\n')
+
+    ## sort
+    sorted_idx = np.argsort(mapping[CATE_LANG[0]])
+    for lang in CATE_LANG:
+        mapping[lang] = [mapping[lang][sidx] for sidx in sorted_idx]
+
+    n = len(mapping[CATE_LANG[0]])
+    for i in range(n):
+        obj = {}
+        for lang in CATE_LANG:
+            obj[lang] = mapping[lang][i]
+
+        DICTIONARY.append(obj)
+    return True
 
 import tensorflow as tf
 from PIL import Image
@@ -32,14 +58,21 @@ def preprocess(img, **kwargs):
     img = np.reshape(img, (sz, sz, 1))
     return img
 
-def y_to_labels(ys):
+def __y_to_labels(ys):
     global CATEGORIES
     return [CATEGORIES[yi] for yi in ys]
+def y_to_labels(ys):
+    global DICTIONARY 
+    if DICTIONARY == None:
+        print('First prediction. Loading labels...')
+        load_cate_files()
+    return [DICTIONARY[yi] for yi in ys]
 
 def predict(raw_imgs):
     global model 
 
     if model==None:
+        print('First prediction. Loading model...')
         model = load_model()
 
     pp_imgs = []

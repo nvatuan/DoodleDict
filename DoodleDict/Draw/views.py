@@ -1,5 +1,9 @@
 import os
 from django.conf import settings  
+
+unsplash_key = getattr(settings, 'UNSPLASH_ACCESS_KEY', None)
+unsplash_get_cnt = getattr(settings, 'UNSPLASH_GET_COUNT', 5)
+unsplash_img_dim = getattr(settings, 'UNSPLASH_IMG_DIM', (1600,900))
 pred_b64_img = getattr(settings, "PREDICT_B64", None)
 
 from django.shortcuts import render
@@ -13,6 +17,28 @@ import json
 from googletrans import Translator
 
 import base64
+
+import asyncio
+
+async def retrieve_imgs(keyword):
+    r = requests.get(
+        'https://api.unsplash.com/search/photos?query={}'.format(keyword),
+        headers = {
+            'Accept-Version': 'v1',
+            'Content-Type': 'application/json',
+            'Authorization': 'Client-ID {}'.format(unsplash_key)
+        }
+    )
+    imgs = []
+    for i in range(unsplash_get_cnt):
+        try:
+            raw = r.json()['results'][i]['urls']['raw']
+            raw += '&w={}&h={}&fit=crop'.format(*unsplash_img_dim)
+            imgs.append(raw)
+        except IndexError:
+            break
+    return imgs
+
 # Create your views here.
 
 @api_view(['GET', 'POST'])
@@ -21,10 +47,16 @@ def drawApi(request):
         data = {}
         rawb64 = json.loads(request.body)["pic"].replace('\n', '')
         lbl = pred_b64_img(rawb64)
-        data['word'] = {'en': lbl}
-        data['img'] = [
-            'https://previews.123rf.com/images/upixel123/upixel1231508/upixel123150800065/43848148-computer-sign-computer-plate-501-not-implemented.jpg',
-        ]
+        data['word'] = lbl
+
+        try:
+            data['img']  = asyncio.run(retrieve_imgs(lbl['en']))
+        except Exception as e:
+            raise e
+            data['img'] = [
+                'https://www.creativefabrica.com/wp-content/uploads/2019/12/23/404-error-flat-icon-vector-Graphics-1.jpg'
+            ]
+
         return Response(data)
     except Exception as e:
         # raise 
