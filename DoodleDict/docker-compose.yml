@@ -1,19 +1,29 @@
 version: "3.3"
 
 services:
-  web:
-    build: .
-    container_name: django_app
-    entrypoint: ["/bin/sh","-c"]
-    command:
-      - |
-          python manage.py makemigrations
-          python manage.py migrate
-          python manage.py runserver 0.0.0.0:8000
+  django_gunicorn:
     volumes:
-      - .:/code
+      - static:/static
+    entrypoint: /code/entrypoint.sh
+    env_file:
+      - .env
+    build:
+      context: .
+    expose:
+      - "8000"
+    depends_on:
+      - db
+    restart: unless-stopped
+  
+  nginx:
+    build: ./nginx
+    volumes:
+      - static:/static
     ports:
-      - 5100:8000
+      - "5100:5100"
+    depends_on:
+      - django_gunicorn
+    restart: unless-stopped
     
   db:
     image: postgres:13
@@ -25,7 +35,18 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     expose:
       - "5432"
- 
+    restart: unless-stopped
+    
+  tfserve:
+    image: tensorflow/serving 
+    volumes:
+      - ./PredictModel/doodle_predict:/models/doodle_predict
+    environment:
+      - MODEL_NAME=doodle_predict
+    expose:
+      - "8501"
+    restart: unless-stopped
 
 volumes:
   postgres_data:
+  static:

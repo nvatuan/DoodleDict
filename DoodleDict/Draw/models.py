@@ -2,13 +2,32 @@ from django.db import models
 
 # Create your models here.
 
-class Drawing(models.Model):
-    # drawing = models.JSONField(default=dict, null=True, blank=True)
-    dataset_key_id = models.BigIntegerField(null=True, blank=True)
-    timestamp = models.DateTimeField(auto_now_add=True)
-    word = models.CharField(max_length=256, null=True)
-    recognized = models.BooleanField(default=False)
-    countrycode = models.CharField(max_length=16, null=True)
+class Label(models.Model):
+    word_en = models.CharField(max_length=512, null=True, unique=True)
+    word = models.JSONField(default=dict, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+
+    def __str__(self):
+        if self.word_en:
+            return self.word_en
+        return "Label #"+str(self.id)
+
+class Doodle(models.Model):
+    country = models.CharField(max_length=256, null=True)
+    country_code = models.CharField(max_length=256, null=True)
+    base64 = models.TextField()
+    prediction = models.ForeignKey(Label, null=True, blank=True, on_delete=models.SET_NULL, related_name="predicted_as")
+    actual_label = models.ForeignKey(Label, null=True, blank=True, on_delete=models.SET_NULL, related_name="actually_as")
+
+    created_at = models.DateTimeField(auto_now_add=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True)
+    deleted_at = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        if self.prediction:
+            return "Pred as '{}'".format(self.prediction.word_en)
+        return "Unknown"
 
 
 # -- Stub data

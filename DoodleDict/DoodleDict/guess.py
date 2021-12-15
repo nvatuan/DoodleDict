@@ -10,6 +10,10 @@ CATE_POSTFIX = '.txt'
 CATE_LANG = ['en', 'vi', 'ja', 'ru', 'fr']
 
 DICTIONARY = None
+SIZE = 128
+TFSERVE_HOST = 'tfserve'
+TFSERVE_PORT = '8501'
+TFSERVE_MODELNAME = 'doodle_predict'
 
 def load_cate_files():
     global DICTIONARY
@@ -32,7 +36,6 @@ def load_cate_files():
         DICTIONARY.append(obj)
     return True
 
-import tensorflow as tf
 from PIL import Image
 import numpy as np
 import json
@@ -49,6 +52,7 @@ def b64_img_to_pil_img(b64txt):
 
 model = None
 def load_model(file_name='model.h5'):
+    import tensorflow as tf
     return tf.keras.models.load_model(os.path.join(module_dir, file_name))
 
 def preprocess(img, **kwargs):
@@ -68,7 +72,7 @@ def y_to_labels(ys):
         load_cate_files()
     return [DICTIONARY[yi] for yi in ys]
 
-def predict(raw_imgs):
+def __predict(raw_imgs):
     global model 
 
     if model==None:
@@ -84,12 +88,35 @@ def predict(raw_imgs):
     pp_y = model.predict(pp_imgs)
     pp_yarg = np.argmax(pp_y, axis=1) 
     return y_to_labels(pp_yarg)
+
+""" Make request to the TFServe server instead of loading a model into ram, much more modulized and efficient
+"""
+def predict(raw_imgs):
+    import requests, json
+    pp_imgs = []
+    for img in raw_imgs:
+        img = preprocess(img)
+        pp_imgs.append( np.asarray(img).reshape( (SIZE, SIZE, 1) ) )
+    pp_imgs = np.asarray(pp_imgs)
+
+    data = json.dumps({"instances": pp_imgs.tolist()})
+    headers = {"content-type": "application/json"}
+    json_response = requests.post(
+        'http://{}:{}/v1/models/{}:predict'.format(TFSERVE_HOST, TFSERVE_PORT, TFSERVE_MODELNAME), 
+        data=data, headers=headers
+    )
+    print("Request status code:", json_response.status_code)
+    
+    pp_y = json.loads(json_response.text)['predictions']
+
+    # pp_y = model.predict(pp_imgs)
+    pp_yarg = np.argmax(pp_y, axis=1) 
+    return y_to_labels(pp_yarg)
  
 def pred_b64_img(b64raw):
     pilimg = b64_img_to_pil_img(b64raw)
     labels = predict([pilimg])
     return labels[0]
-
 
 if __name__ == '__main__':
     b64raws = []
@@ -98,12 +125,14 @@ if __name__ == '__main__':
         line = line.strip()
         if len(line) != 0:
             b64raws.append(line)
+    f.close()
 
     raw_images = []
     for b64raw in b64raws:
         pilimg = b64_img_to_pil_img(b64raw)
         #print(pilimg.size)
         raw_images.append(pilimg)
-    labels = predict(raw_images)
+    print(raw_images)
+    labels = predict2(raw_images)
     print(labels)
 

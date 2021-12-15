@@ -12,26 +12,23 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from .guess import pred_b64_img as PREDICT_B64 # our ML model
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '<secret>'
-UNSPLASH_ACCESS_KEY = '<secret>'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = os.getenv('SECRET_KEY')
+UNSPLASH_ACCESS_KEY = os.getenv('UNSPLASH_ACCESS_KEY')
+DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = ['1509.ddns.net', '*']
 
 import os
 PROJECT_DIR=os.path.dirname(__file__)
 TMP_DIR = os.path.join( os.path.abspath( os.path.join(PROJECT_DIR, '..')), 'tmp' )
+
+# GEO2 Lite Database Path
+MAXMIND_DB = os.path.join(BASE_DIR, 'GeoLite2DB/maxmind4.dat')
 
 # Application definition
 
@@ -44,12 +41,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'Draw',
     'corsheaders',
+    'Draw',
+    'Image',
 ]
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
+    'xff.middleware.XForwardedForMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -124,25 +123,18 @@ REST_FRAMEWORK = {
 }
 
 # Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'Asia/Ho_Chi_Minh'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
+# Static
+STATIC_ROOT = '/static/'
+STATIC_URL = '/static/'
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
-STATIC_URL = '/tmp/'
-STATIC_ROOT = os.path.join(PROJECT_DIR, STATIC_URL)
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
-
+# AutoField
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# XFF Proxies
+XFF_TRUSTED_PROXY_DEPTH = 1
