@@ -36,23 +36,27 @@ async def retrieve_imgs(keyword, count):
     return imgs
 
 def __searchImage(keyword, count):
-	label=None
 	try:
-		label = Label.objects.get(word_en=keyword)
-	except Label.DoesNotExist:
-		label = Label.objects.create(word_en=keyword)
+		label=None
+		try:
+			label = Label.objects.get(word_en=keyword)
+		except Label.DoesNotExist:
+			label = Label.objects.create(word_en=keyword)
 
-	images = Image.objects.filter(label=label)[:count]
-	if len(images) < count:
-		get_imgs = asyncio.run(retrieve_imgs(keyword, count))
+		images = Image.objects.filter(label=label)[:count]
+		if len(images) < count:
+			get_imgs = asyncio.run(retrieve_imgs(keyword, count))
 
-		image_obj = []
-		for get_img in get_imgs:
-			image_obj.append( Image(label=label, url=get_img, status="OK") )
-		images = Image.objects.bulk_create(image_obj)
+			image_obj = []
+			for get_img in get_imgs:
+				image_obj.append( Image(label=label, url=get_img, status="OK") )
+			images = Image.objects.bulk_create(image_obj)
 
-	image_urls = [image.url for image in images]	
-	return image_urls
+		image_urls = [image.url for image in images]	
+		return image_urls
+	except Exception as e:
+		print("Exception ", e)
+	return Response(['https://www.creativefabrica.com/wp-content/uploads/2019/12/23/404-error-flat-icon-vector-Graphics-1.jpg'])
 
 @api_view(['GET'])
 def searchImage(request):
